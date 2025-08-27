@@ -1,14 +1,14 @@
 @echo off
 setlocal enabledelayedexpansion
 
-title Spreadtrum Integration Package Maker
+title Unisoc Integration Package Maker
 
 :: Set tool paths
 set "spd_dump_path=%cd%\bin\spd_dump"
 set "adb_path=%cd%\bin\adb_fastboot\adb"
 set "seven_zip_dir=%cd%\bin\7z"
 
-:: Check if required tools exist
+:: Check if necessary tools exist
 if not exist "%spd_dump_path%\spd_dump.exe" (
     echo Error: spd_dump tool not found
     pause
@@ -16,7 +16,7 @@ if not exist "%spd_dump_path%\spd_dump.exe" (
 )
 
 if not exist "%adb_path%.exe" (
-    echo Error: ADB tool not found
+    echo Error: adb tool not found
     pause
     exit /b 1
 )
@@ -30,12 +30,12 @@ if not exist "%seven_zip_dir%\7zr.exe" (
 :start
 cls
 echo ===============================================================================
-echo.                        Spreadtrum Integration Package Maker By ¶À¤Î¹â
+echo.                        Unisoc Integration Package Maker By ç‹¬ã®å…‰
 echo ===============================================================================
 echo.
 
 :: Ask for package name
-set /p "package_name=Please enter integration package name: "
+set /p "package_name=Please enter the integration package name: "
 if "!package_name!"=="" (
     echo Package name cannot be empty!
     timeout /t 2 /nobreak >nul
@@ -48,12 +48,12 @@ set "flash_files_dir=!work_dir!\flash_files"
 set "dump_dir=!flash_files_dir!\dump"
 set "push_dir=!flash_files_dir!\push"
 
-:: Remove existing working directory if present
+:: If working directory exists, delete it
 if exist "!work_dir!" (
     rmdir /s /q "!work_dir!" >nul 2>&1
 )
 
-:: Create new working directories
+:: Create new working directory
 mkdir "!work_dir!" >nul 2>&1
 mkdir "!flash_files_dir!" >nul 2>&1
 mkdir "!dump_dir!" >nul 2>&1
@@ -62,11 +62,11 @@ mkdir "!push_dir!" >nul 2>&1
 :: Check device preparation status
 echo.
 echo Please confirm the device meets the following conditions:
-echo 1. Bootloader unlocked
-echo 2. AVB verification disabled
-echo 3. TWRP recovery flashed
+echo 1. Bootloader is unlocked
+echo 2. AVB verification is disabled
+echo 3. TWRP recovery is installed
 echo.
-set /p "confirmed=Does the device meet the above conditions? (Y/N): "
+set /p "confirmed=Does the device meet these conditions? (Y/N): "
 
 if /i not "!confirmed!"=="Y" (
     echo Please complete device preparation before continuing
@@ -84,7 +84,7 @@ echo.
 set /p "fdl1_file=Please drag and drop the first FDL file: "
 set "fdl1_file=!fdl1_file:"=!"
 if not exist "!fdl1_file!" (
-    echo File does not exist, please re-enter
+    echo File does not exist, please try again
     goto get_fdl1
 )
 
@@ -100,7 +100,7 @@ copy /y "!fdl1_file!" "!dump_dir!\fdl1.bin" >nul
 set /p "fdl2_file=Please drag and drop the second FDL file: "
 set "fdl2_file=!fdl2_file:"=!"
 if not exist "!fdl2_file!" (
-    echo File does not exist, please re-enter
+    echo File does not exist, please try again
     goto get_fdl2
 )
 
@@ -114,7 +114,7 @@ copy /y "!fdl2_file!" "!dump_dir!\fdl2.bin" >nul
 
 :: Read device partitions
 echo.
-echo Please power off the device, then connect directly to computer...
+echo Please power off the device, then connect directly to the computer...
 pause
 
 echo Reading device partitions...
@@ -178,6 +178,10 @@ if errorlevel 1 (
     goto cleanup
 )
 
+:: Clear backup from device
+echo Clearing backup from device...
+"%adb_path%" shell "rm -rf /sdcard/TWRP/BACKUPS/!DeviceID!/!timestamp!"
+
 :: Collect device information
 echo.
 echo Please provide device information...
@@ -190,8 +194,8 @@ set /p "arch=Please enter device architecture (arm/arm64): "
 set /p "sar_device=Is this a SAR device? (true/false): "
 set /p "ab_device=Is this an A/B partition device? (true/false): "
 set /p "treble=Please enter Treble support information: "
-set /p "fix=Please enter fix details: "
-set /p "ext=Please enter extension details: "
+set /p "fix=Please enter fix content: "
+set /p "ext=Please enter extension content: "
 set /p "maker=Please enter creator name: "
 
 :: Generate set.bat file
