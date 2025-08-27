@@ -1,191 +1,193 @@
 @ECHO OFF
-:: ÉèÖÃ¸÷¸ö¹¤¾ßµÄÂ·¾¶
+:: è®¾ç½®å„ä¸ªå·¥å…·çš„è·¯å¾„
 set "bin_path=%cd%\bin"
-set "spd_dump_path=%cd%\bin\spd_dump"  :: SPDË¢»ú¹¤¾ßÂ·¾¶
-set "adb_path=%cd%\bin\adb_fastboot\adb.exe"  :: ADB¹¤¾ßÂ·¾¶
-set "seven_zip_dir=%cd%\bin\7z"  :: 7-Zip½âÑ¹¹¤¾ßÂ·¾¶
-set "dump_files=%cd%\flash_files\dump"  :: ×ª´¢ÎÄ¼şÄ¿Â¼
-set "push_path=%cd%\flash_files\push"  :: ÍÆËÍÎÄ¼şÄ¿Â¼
-set "flash_path=%cd%\flash_files"  :: Ë¢»úÎÄ¼ş¸ùÄ¿Â¼
+set "spd_dump_path=%cd%\bin\spd_dump"  :: SPDåˆ·æœºå·¥å…·è·¯å¾„
+set "adb_path=%cd%\bin\adb_fastboot\adb.exe"  :: ADBå·¥å…·è·¯å¾„
+set "seven_zip_dir=%cd%\bin\7z"  :: 7-Zipè§£å‹å·¥å…·è·¯å¾„
+set "dump_files=%cd%\flash_files\dump"  :: è½¬å‚¨æ–‡ä»¶ç›®å½•
+set "push_path=%cd%\flash_files\push"  :: æ¨é€æ–‡ä»¶ç›®å½•
+set "flash_path=%cd%\flash_files"  :: åˆ·æœºæ–‡ä»¶æ ¹ç›®å½•
 
 :load_set
-:: ¼ÓÔØÅäÖÃÎÄ¼ş
+:: åŠ è½½é…ç½®æ–‡ä»¶
 if exist "%flash_path%\set.bat" (
-    call "%flash_path%\set.bat"  :: µ÷ÓÃÅäÖÃÎÄ¼ş
+    call "%flash_path%\set.bat"  :: è°ƒç”¨é…ç½®æ–‡ä»¶
     goto after_load
 ) else (
-    echo ´íÎó£ºÎ´ÕÒµ½ÅäÖÃÎÄ¼ş set.bat
+    echo é”™è¯¯ï¼šæœªæ‰¾åˆ°é…ç½®æ–‡ä»¶ set.bat
     goto load_package
 )
 
 :load_package
-:: ¼ÓÔØË¢»ú°ü
-echo ÇëÍÏÈëÕûºÏ°ü7zÎÄ¼ş£º
-set /p package_path=ÍÏÈëÎÄ¼şºó°´»Ø³µ:  :: »ñÈ¡ÓÃ»§ÊäÈëµÄ°üÂ·¾¶
+:: åŠ è½½åˆ·æœºåŒ…
+echo è¯·æ‹–å…¥æ•´åˆåŒ…7zæ–‡ä»¶ï¼š
+set /p package_path=æ‹–å…¥æ–‡ä»¶åæŒ‰å›è½¦:  :: è·å–ç”¨æˆ·è¾“å…¥çš„åŒ…è·¯å¾„
 if not exist "%package_path%" (
-    echo ÎÄ¼ş²»´æÔÚ£¬ÇëÖØĞÂÊäÈë
+    echo æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥
     goto load_package
 )
-echo ÕıÔÚ¼ÓÔØÕûºÏ°ü...
-if exist flash_files rmdir /s /q flash_files  :: ÇåÀí¾ÉÎÄ¼ş
-"%seven_zip_dir%\7zr" x "%package_path%" -o"%cd%"  :: ½âÑ¹Ë¢»ú°ü
+echo æ­£åœ¨åŠ è½½æ•´åˆåŒ…...
+if exist flash_files rmdir /s /q flash_files  :: æ¸…ç†æ—§æ–‡ä»¶
+"%seven_zip_dir%\7zr" x "%package_path%" -o"%cd%"  :: è§£å‹åˆ·æœºåŒ…
 if errorlevel 1 (
-    echo ½âÑ¹Ê§°Ü£¬Çë¼ì²éÎÄ¼ş
+    echo è§£å‹å¤±è´¥ï¼Œè¯·æ£€æŸ¥æ–‡ä»¶
     pause
     goto load_package
 )
 goto load_set
 
 :after_load
-:: ¼ì²é²¢ÉèÖÃdump_modeÄ¬ÈÏÖµ
+:: æ£€æŸ¥å¹¶è®¾ç½®dump_modeé»˜è®¤å€¼
 if not defined dump_mode set dump_mode=kick_fxxk_avb
 
-:: ÉèÖÃTWRP±¸·İÂ·¾¶
+:: è®¾ç½®TWRPå¤‡ä»½è·¯å¾„
 set "backup_path=%push_path%\TWRP\BACKUPS\%backup_name%"
 
 :start
-title Õ¹ÈñÕûºÏ°üDownloader - %device%  :: ÉèÖÃ´°¿Ú±êÌâ
-ECHO.ÕûºÏ°üĞÅÏ¢ÒÑ¼ÓÔØ¡£
+title å±•é”æ•´åˆåŒ…Downloader - %device%  :: è®¾ç½®çª—å£æ ‡é¢˜
+ECHO.æ•´åˆåŒ…ä¿¡æ¯å·²åŠ è½½ã€‚
 ECHO.===============================================================================
-ECHO.                               ÕûºÏ°üĞÅÏ¢
+ECHO.                               æ•´åˆåŒ…ä¿¡æ¯
 ECHO.===============================================================================
-ECHO. ÊÊÓÃĞÍºÅ: %device%
-ECHO. ´¦ÀíÆ÷: %soc% 
-ECHO. Ë¢ÈëµÄÏµÍ³: %system%  
-ECHO. ¼Ü¹¹: %arch%  
-ECHO. SARÉè±¸: %sar_device%  
-ECHO. A/B·ÖÇø: %ab_device% 
-ECHO. TrebleÖ§³Ö: %treble%  
-ECHO. BROMÄ£Ê½: %dump_mode%  
-ECHO. ĞŞ¸´£º%fix%  
-ECHO. À©Õ¹£º%ext%  
-ECHO. ÖÆ×÷: %maker%  
+ECHO. é€‚ç”¨å‹å·: %device%
+ECHO. å¤„ç†å™¨: %soc% 
+ECHO. åˆ·å…¥çš„ç³»ç»Ÿ: %system%  
+ECHO. æ¶æ„: %arch%  
+ECHO. SARè®¾å¤‡: %sar_device%  
+ECHO. A/Båˆ†åŒº: %ab_device% 
+ECHO. Trebleæ”¯æŒ: %treble%  
+ECHO. BROMæ¨¡å¼: %dump_mode%  
+ECHO. ä¿®å¤ï¼š%fix%  
+ECHO. æ‰©å±•ï¼š%ext%  
+ECHO. åˆ¶ä½œ: %maker%  
 ECHO.===============================================================================
-ECHO.by  ¶À¤Î¹â
+ECHO.by  ç‹¬ã®å…‰
 
-:: Ìí¼ÓÓÃ»§Ñ¡Ôñ¹¦ÄÜ
+:: æ·»åŠ ç”¨æˆ·é€‰æ‹©åŠŸèƒ½
 :package_selection
 ECHO.
-ECHO.ÇëÑ¡Ôñ²Ù×÷:
-ECHO.  1 - Ê¹ÓÃµ±Ç°ÕûºÏ°ü¼ÌĞø
-ECHO.  2 - ¼ÓÔØÁíÒ»¸öÕûºÏ°ü
-set /p choice=ÇëÊäÈëÑ¡Ïî (1/2):
+ECHO.è¯·é€‰æ‹©æ“ä½œ:
+ECHO.  1 - ä½¿ç”¨å½“å‰æ•´åˆåŒ…ç»§ç»­
+ECHO.  2 - åŠ è½½å¦ä¸€ä¸ªæ•´åˆåŒ…
+set /p choice=è¯·è¾“å…¥é€‰é¡¹ (1/2):
 
 if /I "%choice%"=="2" goto load_package
 if /I "%choice%"=="1" goto select_mode
-ECHO.ÊäÈëÎŞĞ§£¬ÇëÖØĞÂÊäÈë
+ECHO.è¾“å…¥æ— æ•ˆï¼Œè¯·é‡æ–°è¾“å…¥
 goto package_selection
 
 :select_mode
-:: Ñ¡Ôñ²Ù×÷Ä£Ê½
-ECHO.ÇëÑ¡Ôñ²Ù×÷Ä£Ê½:
-ECHO.1. ´ÓµÚÒ»²½¿ªÊ¼£¨ÍêÕûÁ÷³Ì£©
-ECHO.2. ´ÓÈÎÒâÒ»²½¼ÌĞø
-set /p mode=ÇëÑ¡Ôñ:
+:: é€‰æ‹©æ“ä½œæ¨¡å¼
+ECHO.è¯·é€‰æ‹©æ“ä½œæ¨¡å¼:
+ECHO.1. ä»ç¬¬ä¸€æ­¥å¼€å§‹ï¼ˆå®Œæ•´æµç¨‹ï¼‰
+ECHO.2. ä»ä»»æ„ä¸€æ­¥ç»§ç»­
+set /p mode=è¯·é€‰æ‹©:
 if %mode%==1 goto ask_unattended
 if %mode%==2 goto ask_unattended_step
-ECHO.ÊäÈë´íÎó
+ECHO.è¾“å…¥é”™è¯¯
 pause
 goto select_mode
 
 :ask_unattended
-:: Ñ¯ÎÊÊÇ·ñÎŞÈËÖµÊØÄ£Ê½
-set /p unattended=ÊÇ·ñ½øÈëÎŞÈËÖµÊØÄ£Ê½£¿(1/2):
+:: è¯¢é—®æ˜¯å¦æ— äººå€¼å®ˆæ¨¡å¼
+set /p unattended=æ˜¯å¦è¿›å…¥æ— äººå€¼å®ˆæ¨¡å¼ï¼Ÿ(1/2):
 if /I "%unattended%"=="1" set UNATTENDED=1
 goto unlock
 
 :ask_unattended_step
-set /p unattended=ÊÇ·ñ½øÈëÎŞÈËÖµÊØÄ£Ê½£¿(1/2):
+set /p unattended=æ˜¯å¦è¿›å…¥æ— äººå€¼å®ˆæ¨¡å¼ï¼Ÿ(1/2):
 if /I "%unattended%"=="2" set UNATTENDED=1
 goto choose_step
 
 :choose_step
-:: Ñ¡Ôñ´ÓÄÄÒ»²½¼ÌĞø
-ECHO.ÇëÑ¡Ôñ¼ÌĞøµÄ²½Öè:
-ECHO.2.¸ñÊ½»¯dataÎªf2fs²¢ÍÆËÍTWRPÎÄ¼ş¼Ğ
-ECHO.3.´ÓTWRP±¸·İ»¹Ô­ÏµÍ³
-set /p step=ÇëÑ¡Ôñ:
+:: é€‰æ‹©ä»å“ªä¸€æ­¥ç»§ç»­
+ECHO.è¯·é€‰æ‹©ç»§ç»­çš„æ­¥éª¤:
+ECHO.2.æ ¼å¼åŒ–dataä¸ºf2fså¹¶æ¨é€TWRPæ–‡ä»¶å¤¹
+ECHO.3.ä»TWRPå¤‡ä»½è¿˜åŸç³»ç»Ÿ
+ECHO.4.æ¸…ç†è®¾å¤‡ä¸Šçš„TWRPå¤‡ä»½æ–‡ä»¶
+set /p step=è¯·é€‰æ‹©:
 if %step%==2 goto format_data
 if %step%==3 goto restore_system
-ECHO.ÊäÈë´íÎó
+if %step%==4 goto cleanup_backup
+ECHO.è¾“å…¥é”™è¯¯
 if defined UNATTENDED goto choose_step
 pause
 goto choose_step
 
 :retry_unlock
-ECHO.ÖØÊÔ½âËø...
+ECHO.é‡è¯•è§£é”...
 :unlock
-:: ²½Öè1£º½âËøBootloader
-ECHO.=== ²½Öè1/3£º½âËøBootloader²¢Ë¢Èë¾µÏñ ===
+:: æ­¥éª¤1ï¼šè§£é”Bootloader
+ECHO.=== æ­¥éª¤1/3ï¼šè§£é”Bootloaderå¹¶åˆ·å…¥é•œåƒ ===
 if not defined UNATTENDED (
-    ECHO.Çë½«Éè±¸¹Ø»ú£¬È»ºóÖ±½ÓÁ¬½ÓµçÄÔ...
+    ECHO.è¯·å°†è®¾å¤‡å…³æœºï¼Œç„¶åç›´æ¥è¿æ¥ç”µè„‘...
     pause
 )
-ECHO.¿¨ÔÚµÈ´ıdl_diagÇë³¢ÊÔÖØÁ¬Éè±¸»ò¼ì²éÇı¶¯£¨Ê£Óà15·ÖÖÓ£©
+ECHO.å¡åœ¨ç­‰å¾…dl_diagè¯·å°è¯•é‡è¿è®¾å¤‡æˆ–æ£€æŸ¥é©±åŠ¨ï¼ˆå‰©ä½™15åˆ†é’Ÿï¼‰
 cd "%dump_files%"
 
-:: ½öÊ¹ÓÃkick_fxxk_avbÄ£Ê½½âËø
-ECHO.Ê¹ÓÃkick_fxxk_avbÄ£Ê½½âËø...
+:: ä»…ä½¿ç”¨kick_fxxk_avbæ¨¡å¼è§£é”
+ECHO.ä½¿ç”¨kick_fxxk_avbæ¨¡å¼è§£é”...
 "%spd_dump_path%"\spd_dump --wait 1000 --kickto 2 e splloader e splloader_bak reset
 "%spd_dump_path%"\spd_dump --wait 1000 timeout 10000 fdl fdl1.bin %fdl1_path% fdl fdl2.bin %fdl2_path% exec w splloader splloader.bin w uboot uboot.bin w trustos trustos.bin w recovery "%backup_path%"\recovery.emmc.win reboot-recovery
 
-ECHO.²Ù×÷Íê³É£¡ÒÑ½âËøBootloader²¢Ë¢Èë¾µÏñ¡£
-ECHO.¿ª»ú½«Ö±½Ó½øÈëTWRP»Ö¸´Ä£Ê½...
+ECHO.æ“ä½œå®Œæˆï¼å·²è§£é”Bootloaderå¹¶åˆ·å…¥é•œåƒã€‚
+ECHO.å¼€æœºå°†ç›´æ¥è¿›å…¥TWRPæ¢å¤æ¨¡å¼...
 
 :unlock_confirm
 if defined UNATTENDED goto format_data
-set /p confirm=ÊÇ·ñ³É¹¦½âËøBootloader²¢½øÈëRecovery£¿[Y/N]£º
+set /p confirm=æ˜¯å¦æˆåŠŸè§£é”Bootloaderå¹¶è¿›å…¥Recoveryï¼Ÿ[Y/N]ï¼š
 if /I "%confirm%"=="Y" goto format_data
 if /I "%confirm%"=="N" goto retry_unlock
-ECHO.ÊäÈë´íÎó£¬ÇëÊäÈëY»òN
+ECHO.è¾“å…¥é”™è¯¯ï¼Œè¯·è¾“å…¥Yæˆ–N
 goto unlock_confirm
 
 :format_data
-:: ²½Öè2£º¸ñÊ½»¯Êı¾İ·ÖÇø
-ECHO.=== ²½Öè2/3£º¸ñÊ½»¯data·ÖÇø ===
-ECHO.µÈ´ıÉè±¸½øÈëRecovery...
+:: æ­¥éª¤2ï¼šæ ¼å¼åŒ–æ•°æ®åˆ†åŒº
+ECHO.=== æ­¥éª¤2/3ï¼šæ ¼å¼åŒ–dataåˆ†åŒº ===
+ECHO.ç­‰å¾…è®¾å¤‡è¿›å…¥Recovery...
 if not defined UNATTENDED (
     pause
 )
 
-ECHO.½â³ıdata·ÖÇø¹ÒÔØ...
+ECHO.è§£é™¤dataåˆ†åŒºæŒ‚è½½...
 :unmount_retry
 "%adb_path%" shell twrp unmount data
 if errorlevel 1 (
-    echo Éè±¸Î´Á¬½Ó£¬»ò½â³ı¹ÒÔØÊ§°Ü£¬ÖØÊÔ...
+    echo è®¾å¤‡æœªè¿æ¥ï¼Œæˆ–è§£é™¤æŒ‚è½½å¤±è´¥ï¼Œé‡è¯•...
     if not defined UNATTENDED pause
     timeout /t 5 /nobreak >nul
     goto unmount_retry
 )
 
-ECHO.¸ñÊ½»¯data·ÖÇøÎªf2fs...
+ECHO.æ ¼å¼åŒ–dataåˆ†åŒºä¸ºf2fs...
 "%adb_path%" shell mkfs.f2fs /dev/block/by-name/userdata
 if errorlevel 1 (
-    echo ¸ñÊ½»¯Ê§°Ü£¬ÖØÊÔ...
+    echo æ ¼å¼åŒ–å¤±è´¥ï¼Œé‡è¯•...
     if not defined UNATTENDED pause
     goto unmount_retry
 )
 
-ECHO.TWRP¸ñÊ½»¯...
+ECHO.TWRPæ ¼å¼åŒ–...
 :twrp_format_retry
 "%adb_path%" shell twrp format data
 if errorlevel 1 (
-    echo TWRP¸ñÊ½»¯Ê§°Ü£¬ÖØÊÔ...
+    echo TWRPæ ¼å¼åŒ–å¤±è´¥ï¼Œé‡è¯•...
     if not defined UNATTENDED pause
     goto twrp_format_retry
 )
 
-ECHO.¸ñÊ½»¯Íê³É£¬ÕıÔÚÖØÆôÉè±¸...
+ECHO.æ ¼å¼åŒ–å®Œæˆï¼Œæ­£åœ¨é‡å¯è®¾å¤‡...
 "%adb_path%" reboot recovery
-ECHO.µÈ´ıÉè±¸½øÈëRecovery...
+ECHO.ç­‰å¾…è®¾å¤‡è¿›å…¥Recovery...
 if not defined UNATTENDED pause
 
-ECHO.ÍÆËÍTWRPÎÄ¼ş¼Ğ...
+ECHO.æ¨é€TWRPæ–‡ä»¶å¤¹...
 :push_retry
 "%adb_path%" push "%push_path%\." /sdcard/
 "%adb_path%" push "%bin_path%\.twrps" /sdcard/TWRP/
 if errorlevel 1 (
-    echo Éè±¸Î´Á¬½Ó£¬»òÍÆËÍTWRPÎÄ¼ş¼ĞÊ§°Ü£¬ÖØÊÔ...
+    echo è®¾å¤‡æœªè¿æ¥ï¼Œæˆ–æ¨é€TWRPæ–‡ä»¶å¤¹å¤±è´¥ï¼Œé‡è¯•...
     if not defined UNATTENDED pause
     timeout /t 5 /nobreak >nul
     goto push_retry
@@ -194,27 +196,10 @@ if errorlevel 1 (
 goto restore_system
 
 :restore_system
-:: ²½Öè3£º´ÓTWRP±¸·İ»¹Ô­ÏµÍ³
-ECHO.=== ²½Öè3/3£º´ÓTWRP±¸·İ»¹Ô­ÏµÍ³ ===
+:: æ­¥éª¤3ï¼šä»TWRPå¤‡ä»½è¿˜åŸç³»ç»Ÿ
+ECHO.=== æ­¥éª¤3/3ï¼šä»TWRPå¤‡ä»½è¿˜åŸç³»ç»Ÿ ===
 "%adb_path%" shell reboot recovery
-ECHO.µÈ´ıÉè±¸½øÈëRecovery...
+ECHO.ç­‰å¾…è®¾å¤‡è¿›å…¥Recovery...
 if not defined UNATTENDED (
     pause
 )
-
-ECHO.´ÓTWRP±¸·İ»¹Ô­ÏµÍ³...
-:restore_retry
-"%adb_path%" shell twrp restore /sdcard/TWRP/BACKUPS/%backup_name% SDRB
-if errorlevel 1 (
-    echo »Ö¸´ÏµÍ³Ê§°Ü£¬»òÉè±¸Î´Á¬½Ó£¬ÖØÊÔ...
-    if not defined UNATTENDED pause
-    timeout /t 5 /nobreak >nul
-    goto restore_retry
-)
-
-ECHO.²Ù×÷³É¹¦£¡ÕıÔÚÖØÆôÉè±¸...
-"%adb_path%" reboot
-ECHO.=== ¹§Ï²£¡ËùÓĞ²½ÖèÒÑÍê³É£¡ ===
-ECHO.Éè±¸¼´½«Æô¶¯½øÈë%system%ÏµÍ³...
-pause
-goto start
