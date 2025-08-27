@@ -5,7 +5,7 @@ title UPac Tool v1.2 - Author: ¶À¤Î¹â, QQ: 3981750101
 cls
 echo ============================================
 echo            UPac Tool v1.2
-echo           Author: ¶À¤Î¹â
+echo           Author: 独の光
 echo           QQ: 3981750101
 echo ============================================
 echo.
@@ -36,3 +36,4 @@ if "%choice%"=="3" (
 echo Invalid input, press any key to try again...
 pause >nul
 goto main_menu
+
