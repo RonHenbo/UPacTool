@@ -13,9 +13,9 @@ This project integrates and utilizes the following third-party tools. We hereby 
 ### 1. spd_dump
 - **Function**: Core flashing utility for communicating with Unisoc devices in BROM mode.
 - **Source**: https://github.com/TomKing062/spreadtrum_flash
+- **License**: MIT License
 - **Usage Statement**:
-  > This tool was developed by community developers, and its original repository did not explicitly declare an open-source license. Given its widespread use, modification, and distribution within the Huaqiangbei hardware developer community, and considering the original repository is publicly read-only, this project includes it for the purpose of technical promotion and exchange. We extend sincere gratitude to the original author. If you believe this usage is inappropriate, please contact us via a GitHub Issue, and we will respond promptly to address your concerns.
-- **Acknowledgement**: Thanks to the anonymous developer for their contributions to the open-source community.
+  > This tool was developed by community developers and is used under the MIT License. We extend sincere gratitude to the original author for their contributions to the open-source community.
 
 ### 2. Android Debug Bridge (ADB) and Fastboot
 - **Function**: Used to communicate with devices in Android and Recovery modes.
@@ -48,9 +48,9 @@ Except for the aforementioned third-party tools, the batch script logic, structu
 ### 1. spd_dump
 - **功能**：核心刷写工具，用于与展锐设备在 BROM 模式下通信。
 - **来源**：https://github.com/TomKing062/spreadtrum_flash
+- **许可证**：MIT 许可证
 - **使用声明**：
-  > 该工具由社区开发者开发，其原始仓库未明确声明开源许可证。鉴于其已在华强北硬件开发者社区中被广泛使用、修改与传播，且原仓库为公开只读状态，本项目出于技术推广与交流的目的将其纳入工具包。我们由衷感谢原始作者的贡献，如您认为该使用方式存在不妥，请通过 GitHub Issue 联系我们，我们将及时响应并处理您的诉求。
-- **致谢**：感谢匿名开发者对开源社区所作出的贡献。
+  > 该工具由社区开发者开发，基于 MIT 许可证使用。我们由衷感谢原始作者的贡献。
 
 ### 2. Android Debug Bridge (ADB) 与 Fastboot
 - **功能**：用于在 Android 和 Recovery 模式下与设备进行通信。
@@ -67,4 +67,3 @@ Except for the aforementioned third-party tools, the batch script logic, structu
 ## 免责声明
 
 除上述第三方工具外，本项目中的批处理脚本逻辑、结构设计与实现均由作者（独の光）编写，采用 GNU General Public License v3.0 (GPL-3.0) 许可。第三方工具的许可状态由其各自作者决定，与本项目作者无关。
-
