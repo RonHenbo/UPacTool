@@ -1,28 +1,28 @@
 @echo off
 setlocal enabledelayedexpansion
 
-title Õ¹ÈñÕûºÏ°üÖÆ×÷¹¤¾ß
+title å±•é”æ•´åˆåŒ…åˆ¶ä½œå·¥å…·
 
-:: ÉèÖÃ¹¤¾ßÂ·¾¶
+:: è®¾ç½®å·¥å…·è·¯å¾„
 set "spd_dump_path=%cd%\bin\spd_dump"
 set "adb_path=%cd%\bin\adb_fastboot\adb"
 set "seven_zip_dir=%cd%\bin\7z"
 
-:: ¼ì²é±ØÒª¹¤¾ßÊÇ·ñ´æÔÚ
+:: æ£€æŸ¥å¿…è¦å·¥å…·æ˜¯å¦å­˜åœ¨
 if not exist "%spd_dump_path%\spd_dump.exe" (
-    echo ´íÎó£ºÎ´ÕÒµ½spd_dump¹¤¾ß
+    echo é”™è¯¯ï¼šæœªæ‰¾åˆ°spd_dumpå·¥å…·
     pause
     exit /b 1
 )
 
 if not exist "%adb_path%.exe" (
-    echo ´íÎó£ºÎ´ÕÒµ½adb¹¤¾ß
+    echo é”™è¯¯ï¼šæœªæ‰¾åˆ°adbå·¥å…·
     pause
     exit /b 1
 )
 
 if not exist "%seven_zip_dir%\7zr.exe" (
-    echo ´íÎó£ºÎ´ÕÒµ½7zr¹¤¾ß
+    echo é”™è¯¯ï¼šæœªæ‰¾åˆ°7zrå·¥å…·
     pause
     exit /b 1
 )
@@ -30,141 +30,141 @@ if not exist "%seven_zip_dir%\7zr.exe" (
 :start
 cls
 echo ===============================================================================
-echo.                        Õ¹ÈñÕûºÏ°üÖÆ×÷¹¤¾ß By ¶À¤Î¹â
+echo.                        å±•é”æ•´åˆåŒ…åˆ¶ä½œå·¥å…· By ç‹¬ã®å…‰
 echo ===============================================================================
 echo.
 
-:: Ñ¯ÎÊÕûºÏ°üÃû³Æ
-set /p "package_name=ÇëÊäÈëÕûºÏ°üÃû³Æ: "
+:: è¯¢é—®æ•´åˆåŒ…åç§°
+set /p "package_name=è¯·è¾“å…¥æ•´åˆåŒ…åç§°: "
 if "!package_name!"=="" (
-    echo ÕûºÏ°üÃû³Æ²»ÄÜÎª¿Õ!
+    echo æ•´åˆåŒ…åç§°ä¸èƒ½ä¸ºç©º!
     timeout /t 2 /nobreak >nul
     goto start
 )
 
-:: ´´½¨¹¤×÷ÎÄ¼ş¼Ğ
+:: åˆ›å»ºå·¥ä½œæ–‡ä»¶å¤¹
 set "work_dir=%cd%\!package_name!"
 set "flash_files_dir=!work_dir!\flash_files"
 set "dump_dir=!flash_files_dir!\dump"
 set "push_dir=!flash_files_dir!\push"
 
-:: Èç¹û¹¤×÷ÎÄ¼ş¼ĞÒÑ´æÔÚ£¬Ö±½ÓÉ¾³ı
+:: å¦‚æœå·¥ä½œæ–‡ä»¶å¤¹å·²å­˜åœ¨ï¼Œç›´æ¥åˆ é™¤
 if exist "!work_dir!" (
     rmdir /s /q "!work_dir!" >nul 2>&1
 )
 
-:: ´´½¨ĞÂµÄ¹¤×÷ÎÄ¼ş¼Ğ
+:: åˆ›å»ºæ–°çš„å·¥ä½œæ–‡ä»¶å¤¹
 mkdir "!work_dir!" >nul 2>&1
 mkdir "!flash_files_dir!" >nul 2>&1
 mkdir "!dump_dir!" >nul 2>&1
 mkdir "!push_dir!" >nul 2>&1
-:: ¼ì²éÉè±¸×¼±¸×´Ì¬
+:: æ£€æŸ¥è®¾å¤‡å‡†å¤‡çŠ¶æ€
 echo.
-echo ÇëÈ·ÈÏÉè±¸ÒÑÂú×ãÒÔÏÂÌõ¼ş:
-echo 1. ÒÑ½âËøBootloader
-echo 2. ÒÑ½ûÓÃAVBÑéÖ¤
-echo 3. ÒÑË¢ÈëTWRP»Ö¸´Ä£Ê½
+echo è¯·ç¡®è®¤è®¾å¤‡å·²æ»¡è¶³ä»¥ä¸‹æ¡ä»¶:
+echo 1. å·²è§£é”Bootloader
+echo 2. å·²ç¦ç”¨AVBéªŒè¯
+echo 3. å·²åˆ·å…¥TWRPæ¢å¤æ¨¡å¼
 echo.
-set /p "confirmed=Éè±¸ÒÑÂú×ãÉÏÊöÌõ¼ş? (Y/N): "
+set /p "confirmed=è®¾å¤‡å·²æ»¡è¶³ä¸Šè¿°æ¡ä»¶? (Y/N): "
 
 if /i not "!confirmed!"=="Y" (
-    echo ÇëÏÈÍê³ÉÉè±¸×¼±¸¹¤×÷ºóÔÙ¼ÌĞø
+    echo è¯·å…ˆå®Œæˆè®¾å¤‡å‡†å¤‡å·¥ä½œåå†ç»§ç»­
     rmdir /s /q "!work_dir!"
     pause
     goto start
 )
 
-:: »ñÈ¡FDLÎÄ¼ş
+:: è·å–FDLæ–‡ä»¶
 echo.
-echo ÇëÌá¹©FDLÎÄ¼şĞÅÏ¢...
+echo è¯·æä¾›FDLæ–‡ä»¶ä¿¡æ¯...
 echo.
 
 :get_fdl1
-set /p "fdl1_file=ÇëÍÏÈëµÚÒ»¸öFDLÎÄ¼ş: "
+set /p "fdl1_file=è¯·æ‹–å…¥ç¬¬ä¸€ä¸ªFDLæ–‡ä»¶: "
 set "fdl1_file=!fdl1_file:"=!"
 if not exist "!fdl1_file!" (
-    echo ÎÄ¼ş²»´æÔÚ£¬ÇëÖØĞÂÊäÈë
+    echo æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥
     goto get_fdl1
 )
 
-set /p "fdl1_path=ÇëÊäÈëµÚÒ»¸öFDLÎÄ¼şµÄÂ·¾¶µØÖ·(Èç0x5000): "
+set /p "fdl1_path=è¯·è¾“å…¥ç¬¬ä¸€ä¸ªFDLæ–‡ä»¶çš„è·¯å¾„åœ°å€(å¦‚0x5000): "
 if "!fdl1_path!"=="" (
-    echo Â·¾¶µØÖ·²»ÄÜÎª¿Õ
+    echo è·¯å¾„åœ°å€ä¸èƒ½ä¸ºç©º
     goto get_fdl1
 )
 
 copy /y "!fdl1_file!" "!dump_dir!\fdl1.bin" >nul
 
 :get_fdl2
-set /p "fdl2_file=ÇëÍÏÈëµÚ¶ş¸öFDLÎÄ¼ş: "
+set /p "fdl2_file=è¯·æ‹–å…¥ç¬¬äºŒä¸ªFDLæ–‡ä»¶: "
 set "fdl2_file=!fdl2_file:"=!"
 if not exist "!fdl2_file!" (
-    echo ÎÄ¼ş²»´æÔÚ£¬ÇëÖØĞÂÊäÈë
+    echo æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥
     goto get_fdl2
 )
 
-set /p "fdl2_path=ÇëÊäÈëµÚ¶ş¸öFDLÎÄ¼şµÄÂ·¾¶µØÖ·(Èç0x9efffe00): "
+set /p "fdl2_path=è¯·è¾“å…¥ç¬¬äºŒä¸ªFDLæ–‡ä»¶çš„è·¯å¾„åœ°å€(å¦‚0x9efffe00): "
 if "!fdl2_path!"=="" (
-    echo Â·¾¶µØÖ·²»ÄÜÎª¿Õ
+    echo è·¯å¾„åœ°å€ä¸èƒ½ä¸ºç©º
     goto get_fdl2
 )
 
 copy /y "!fdl2_file!" "!dump_dir!\fdl2.bin" >nul
 
-:: ¶ÁÈ¡Éè±¸·ÖÇø
+:: è¯»å–è®¾å¤‡åˆ†åŒº
 echo.
-echo Çë¹Ø±ÕÉè±¸£¬È»ºóÖ±½ÓÁ¬½ÓµçÄÔ...
+echo è¯·å…³é—­è®¾å¤‡ï¼Œç„¶åç›´æ¥è¿æ¥ç”µè„‘...
 pause
 
-echo ÕıÔÚ¶ÁÈ¡Éè±¸·ÖÇø...
+echo æ­£åœ¨è¯»å–è®¾å¤‡åˆ†åŒº...
 cd /d "!dump_dir!"
 "%spd_dump_path%\spd_dump" --wait 1000 --kickto 2 r splloader r trustos r uboot reboot-recovery
 
 if errorlevel 1 (
-    echo ¶ÁÈ¡·ÖÇøÊ§°Ü£¬Çë¼ì²éÉè±¸Á¬½ÓºÍÇı¶¯
+    echo è¯»å–åˆ†åŒºå¤±è´¥ï¼Œè¯·æ£€æŸ¥è®¾å¤‡è¿æ¥å’Œé©±åŠ¨
     pause
     goto cleanup
 )
 
-echo ·ÖÇø¶ÁÈ¡³É¹¦!
+echo åˆ†åŒºè¯»å–æˆåŠŸ!
 timeout /t 3 /nobreak >nul
 
-:: µÈ´ıÉè±¸½øÈëRecovery
-echo µÈ´ıÉè±¸½øÈëTWRP»Ö¸´Ä£Ê½...
+:: ç­‰å¾…è®¾å¤‡è¿›å…¥Recovery
+echo ç­‰å¾…è®¾å¤‡è¿›å…¥TWRPæ¢å¤æ¨¡å¼...
 :wait_recovery
 "%adb_path%" wait-for-recovery >nul 2>&1
 if errorlevel 1 (
-    echo Éè±¸Î´½øÈë»Ö¸´Ä£Ê½£¬ÇëÊÖ¶¯½øÈëTWRPºó°´ÈÎÒâ¼ü¼ÌĞø...
+    echo è®¾å¤‡æœªè¿›å…¥æ¢å¤æ¨¡å¼ï¼Œè¯·æ‰‹åŠ¨è¿›å…¥TWRPåæŒ‰ä»»æ„é”®ç»§ç»­...
     pause
     goto wait_recovery
 )
 
-:: ´´½¨±¸·İ
-echo ÕıÔÚ´´½¨TWRP±¸·İ...
+:: åˆ›å»ºå¤‡ä»½
+echo æ­£åœ¨åˆ›å»ºTWRPå¤‡ä»½...
 set "timestamp=!date:~0,4!!date:~5,2!!date:~8,2!!time:~0,2!!time:~3,2!!time:~6,2!"
 set "timestamp=!timestamp: =0!"
 
 "%adb_path%" shell "twrp backup SDRB !timestamp!"
 
 if errorlevel 1 (
-    echo ±¸·İ´´½¨Ê§°Ü
+    echo å¤‡ä»½åˆ›å»ºå¤±è´¥
     pause
     goto cleanup
 )
 
-:: »ñÈ¡Éè±¸ID²¢À­È¡±¸·İ
-echo ÕıÔÚ»ñÈ¡Éè±¸ID...
+:: è·å–è®¾å¤‡IDå¹¶æ‹‰å–å¤‡ä»½
+echo æ­£åœ¨è·å–è®¾å¤‡ID...
 for /f "delims=" %%a in ('"%adb_path%" get-serialno 2^>nul') do set "DeviceID=%%a"
 
 if "!DeviceID!"=="" (
-    echo ÎŞ·¨»ñÈ¡Éè±¸ID
+    echo æ— æ³•è·å–è®¾å¤‡ID
     set "DeviceID=unknown"
 )
 
 set "backup_name=!DeviceID!/!timestamp!"
 
-:: À­È¡±¸·İÎÄ¼ş
-echo ÕıÔÚÀ­È¡±¸·İÎÄ¼ş...
+:: æ‹‰å–å¤‡ä»½æ–‡ä»¶
+echo æ­£åœ¨æ‹‰å–å¤‡ä»½æ–‡ä»¶...
 mkdir "!push_dir!\TWRP" >nul 2>&1
 mkdir "!push_dir!\TWRP\BACKUPS" >nul 2>&1
 mkdir "!push_dir!\TWRP\BACKUPS\!DeviceID!" >nul 2>&1
@@ -172,28 +172,32 @@ mkdir "!push_dir!\TWRP\BACKUPS\!DeviceID!" >nul 2>&1
 "%adb_path%" pull /sdcard/TWRP/BACKUPS/!DeviceID!/!timestamp! "!push_dir!\TWRP\BACKUPS\!DeviceID!\!timestamp!"\
 
 if errorlevel 1 (
-    echo À­È¡±¸·İÊ§°Ü
+    echo æ‹‰å–å¤‡ä»½å¤±è´¥
     pause
     goto cleanup
 )
 
-:: ÊÕ¼¯Éè±¸ĞÅÏ¢
+:: æ¸…é™¤è®¾å¤‡ä¸Šçš„å¤‡ä»½æ–‡ä»¶
+echo æ­£åœ¨æ¸…é™¤è®¾å¤‡ä¸Šçš„å¤‡ä»½æ–‡ä»¶...
+"%adb_path%" shell "rm -rf /sdcard/TWRP/BACKUPS/!DeviceID!/!timestamp!"
+
+:: æ”¶é›†è®¾å¤‡ä¿¡æ¯
 echo.
-echo ÇëÌá¹©Éè±¸ĞÅÏ¢...
+echo è¯·æä¾›è®¾å¤‡ä¿¡æ¯...
 echo.
 
-set /p "device=ÇëÊäÈëÉè±¸ĞÍºÅ: "
-set /p "soc=ÇëÊäÈë´¦ÀíÆ÷ĞÍºÅ: "
-set /p "system=ÇëÊäÈëÏµÍ³°æ±¾: "
-set /p "arch=ÇëÊäÈëÉè±¸¼Ü¹¹(arm/arm64): "
-set /p "sar_device=ÊÇ·ñÊÇSARÉè±¸(true/false): "
-set /p "ab_device=ÊÇ·ñÊÇA/B·ÖÇøÉè±¸(true/false): "
-set /p "treble=ÇëÊäÈëTrebleÖ§³ÖĞÅÏ¢: "
-set /p "fix=ÇëÊäÈëĞŞ¸´ÄÚÈİ: "
-set /p "ext=ÇëÊäÈëÀ©Õ¹ÄÚÈİ: "
-set /p "maker=ÇëÊäÈëÖÆ×÷Õß: "
+set /p "device=è¯·è¾“å…¥è®¾å¤‡å‹å·: "
+set /p "soc=è¯·è¾“å…¥å¤„ç†å™¨å‹å·: "
+set /p "system=è¯·è¾“å…¥ç³»ç»Ÿç‰ˆæœ¬: "
+set /p "arch=è¯·è¾“å…¥è®¾å¤‡æ¶æ„(arm/arm64): "
+set /p "sar_device=æ˜¯å¦æ˜¯SARè®¾å¤‡(true/false): "
+set /p "ab_device=æ˜¯å¦æ˜¯A/Båˆ†åŒºè®¾å¤‡(true/false): "
+set /p "treble=è¯·è¾“å…¥Trebleæ”¯æŒä¿¡æ¯: "
+set /p "fix=è¯·è¾“å…¥ä¿®å¤å†…å®¹: "
+set /p "ext=è¯·è¾“å…¥æ‰©å±•å†…å®¹: "
+set /p "maker=è¯·è¾“å…¥åˆ¶ä½œè€…: "
 
-:: Éú³Éset.batÎÄ¼ş
+:: ç”Ÿæˆset.batæ–‡ä»¶
 (
 echo ::in_flash_files_set_ini
 echo set "backup_name=!backup_name!"
@@ -211,26 +215,26 @@ echo set "ext=!ext!"
 echo set "maker=!maker!"
 ) > "!flash_files_dir!\set.bat"
 
-:: ´ò°üÕûºÏ°ü
-echo ÕıÔÚ´ò°üÕûºÏ°ü...
+:: æ‰“åŒ…æ•´åˆåŒ…
+echo æ­£åœ¨æ‰“åŒ…æ•´åˆåŒ…...
 cd /d "!work_dir!"
 "%seven_zip_dir%\7zr" a -mx9 -t7z "..\!package_name!.7z" "flash_files" >nul
 
 if errorlevel 1 (
-    echo ´ò°üÊ§°Ü
+    echo æ‰“åŒ…å¤±è´¥
     pause
     goto cleanup
 )
 
-:: ÇåÀí¹¤×÷Ä¿Â¼
+:: æ¸…ç†å·¥ä½œç›®å½•
 :cleanup
 cd /d "%cd%"
 rmdir /s /q "!work_dir!"
 
 echo.
 echo ===============================================================================
-echo ÕûºÏ°üÖÆ×÷Íê³É!
-echo ÕûºÏ°üÒÑ±£´æÎª: %cd%\!package_name!.7z
+echo æ•´åˆåŒ…åˆ¶ä½œå®Œæˆ!
+echo æ•´åˆåŒ…å·²ä¿å­˜ä¸º: %cd%\!package_name!.7z
 echo ===============================================================================
 echo.
 pause
