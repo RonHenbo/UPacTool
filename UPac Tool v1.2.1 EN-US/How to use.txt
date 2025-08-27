@@ -1,0 +1,3 @@
+Install the drivers, then run RunTools.bat in the Tools folder.  
+By 独の光  
+QQ: 3981750101
