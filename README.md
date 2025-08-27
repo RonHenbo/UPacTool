@@ -21,13 +21,11 @@ This project integrates and utilizes the following third-party tools. We hereby 
 - **Function**: Used to communicate with devices in Android and Recovery modes.
 - **Source**: https://developer.android.com/tools/releases/platform-tools
 - **License**: Apache License 2.0
-- **License Text**: Please refer to the `bin/adb_fastboot/NOTICE` file.
 
 ### 3. 7-Zip (7zr)
 - **Function**: Used to extract firmware packages.
 - **Source**: https://www.7-zip.org/
 - **License**: GNU Lesser General Public License (LGPL)
-- **License Text**: Please refer to the `bin/7z/License.txt` file.
 
 ---
 
@@ -58,13 +56,11 @@ Except for the aforementioned third-party tools, the batch script logic, structu
 - **功能**：用于在 Android 和 Recovery 模式下与设备进行通信。
 - **来源**：https://developer.android.com/tools/releases/platform-tools
 - **许可证**：Apache License 2.0
-- **许可证文本**：请参阅 `bin/adb_fastboot/NOTICE` 文件。
 
 ### 3. 7-Zip (7zr)
 - **功能**：用于解压固件包。
 - **来源**：https://www.7-zip.org/
 - **许可证**：GNU Lesser General Public License (LGPL)
-- **许可证文本**：请参阅 `bin/7z/License.txt` 文件。
 
 ---
 
