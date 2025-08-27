@@ -61,7 +61,7 @@ ECHO. Fix: %fix%
 ECHO. Extension: %ext%  
 ECHO. Maker: %maker%  
 ECHO.===============================================================================
-ECHO.by    ι 
+ECHO.by 独の光 
 
 :: Add user selection function
 :package_selection
@@ -227,3 +227,4 @@ ECHO.=== Congratulations! All steps completed! ===
 ECHO.Device will now boot into %system% system...
 pause
 goto start
+
