@@ -30,7 +30,7 @@ if not exist "%seven_zip_dir%\7zr.exe" (
 :start
 cls
 echo ===============================================================================
-echo.                        Unisoc Integration Package Maker By ∂¿§Œπ‚
+echo.                        Unisoc Integration Package Maker By Áã¨„ÅÆÂÖâ
 echo ===============================================================================
 echo.
 
@@ -239,3 +239,4 @@ echo Package saved as: %cd%\!package_name!.7z
 echo ===============================================================================
 echo.
 pause
+
