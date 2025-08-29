@@ -169,7 +169,15 @@ goto unlock_confirm
 :: 步骤2：格式化数据分区
 ECHO.=== 步骤2/4：格式化data分区 ===
 ECHO.等待设备进入Recovery...
+
+:wait_for_recovery_retry
 "%adb_path%"\adb wait-for-recovery >nul 2>&1
+if errorlevel 1 (
+    echo 等待Recovery失败，关闭ADB服务并重试...
+    "%adb_path%"\adb kill-server >nul 2>&1
+    timeout /t 5 /nobreak >nul
+    goto wait_for_recovery_retry
+)
 
 :unmount_retry
 "%adb_path%"\adb shell twrp unmount data
@@ -187,13 +195,14 @@ for /f "delims=" %%i in ('adb shell "find /dev/block -name userdata 2>/dev/null"
     set userdata_path=%%i
     goto :userdata_found_format
 )
-cd "%bin_path%"
+cd "%tools_path%"
 :userdata_found_format
 if "%userdata_path%"=="" (
     echo 错误：未找到userdata
     pause
     goto find_userdata
 )
+
 ECHO.使用F2FS格式化data...
 "%adb_path%"\adb shell mkfs.f2fs %userdata_path%
 if errorlevel 1 (
@@ -202,14 +211,22 @@ if errorlevel 1 (
     goto unmount_retry
 )
 
-
 ECHO.TWRP格式化...
 :twrp_format_retry
 "%adb_path%"\adb shell twrp format data
 if errorlevel 1 (
-    echo TWRP格式化失败，重试...
-    if not defined UNATTENDED pause
-    goto twrp_format_retry
+    echo TWRP格式化失败，设备可能进入无限重启状态...
+    echo 正在尝试修复...
+    
+    :: 使用kick命令尝试连接设备
+    "%spd_dump_path%"\spd_dump --wait 1000 --kickto 2
+    
+    :: 擦除misc分区并重启到Recovery
+    "%spd_dump_path%"\spd_dump --wait 1000 e misc reboot-recovery
+    
+    echo 修复完成，等待设备重新进入Recovery...
+    timeout /t 10 /nobreak >nul
+    goto unmount_retry
 )
 
 ECHO.格式化完成，正在重启设备...
@@ -238,13 +255,12 @@ ECHO.=== 步骤3/4：刷入vendor分区 ===
 ECHO.等待设备进入Recovery...
 "%adb_path%"\adb wait-for-recovery >nul 2>&1
 ECHO.正在搜索vendor路径...
-cd "%adb_path%"
 set vendor_path=
 for /f "delims=" %%i in ('adb shell "find /dev/block -name by-name -type d 2>/dev/null"') do (
     set vendor_path=%%i
     goto :vendor_found_flash
 )
-cd "%bin_path%"
+cd "%tools_path%"
 :vendor_found_flash
 if "%vendor_path%"=="" (
     echo 错误：未找到vendor

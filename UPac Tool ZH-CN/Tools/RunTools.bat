@@ -1,10 +1,10 @@
 @echo off
-title UPac Tool v1.2 - 作者：独の光，QQ：3981750101
+title UPac Tool v1.3.3 - 作者：独の光，QQ：3981750101
 
 :main_menu
 cls
 echo ============================================
-echo            UPac Tool v1.2
+echo            UPac Tool v1.3.3
 echo           作者：独の光
 echo           QQ：3981750101
 echo ============================================
