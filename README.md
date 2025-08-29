@@ -22,7 +22,7 @@ This project integrates and utilizes the following third-party tools. We hereby 
 - **Source**: https://developer.android.com/tools/releases/platform-tools
 - **License**: Apache License 2.0
 
-### 3. 7-Zip (7zr)
+### 3. 7-Zip (7za)
 - **Function**: Used to extract firmware packages.
 - **Source**: https://www.7-zip.org/
 - **License**: GNU Lesser General Public License (LGPL)
@@ -57,7 +57,7 @@ Except for the aforementioned third-party tools, the batch script logic, structu
 - **来源**：https://developer.android.com/tools/releases/platform-tools
 - **许可证**：Apache License 2.0
 
-### 3. 7-Zip (7zr)
+### 3. 7-Zip (7za)
 - **功能**：用于解压固件包。
 - **来源**：https://www.7-zip.org/
 - **许可证**：GNU Lesser General Public License (LGPL)
