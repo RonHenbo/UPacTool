@@ -210,11 +210,6 @@ for /f "delims=" %%a in ('adb shell "ls /sdcard/TWRP/BACKUPS/" 2^>nul') do (
     set "DeviceID=%%a"
 )
 if "!DeviceID!"=="" (
-    set /a "retry_count+=1"
-    if !retry_count! geq 5 (
-        echo Unable to get device ID, please check if TWRP backup was created successfully
-        goto cleanup
-    )
     echo Unable to get device ID, retrying in 5 seconds...
     timeout /t 5 /nobreak >nul
     goto retry_get_id
