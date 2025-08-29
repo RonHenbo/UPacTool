@@ -1,10 +1,10 @@
 @echo off
-title UPac Tool v1.2 - Author: ¶À¤Î¹â, QQ: 3981750101
+title UPac Tool v1.3.3 - Author: ¶À¤Î¹â, QQ: 3981750101
 
 :main_menu
 cls
 echo ============================================
-echo            UPac Tool v1.2
+echo            UPac Tool v1.3.3
 echo           Author: ¶À¤Î¹â
 echo           QQ: 3981750101
 echo ============================================
